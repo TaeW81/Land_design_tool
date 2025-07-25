@@ -1,13 +1,16 @@
 import os
 import subprocess
 import tkinter as tk
-from tkinter import ttk
+from tkinter import ttk, messagebox
 from PIL import Image, ImageTk
+import time
+import ctypes
+import comtypes.client as cc
 
 class IntegratedTool:
     def __init__(self, root):
         self.root = root
-        self.root.title("단지설계 자동화 Tools")
+        self.root.title("단지설계 자동화 Tool")
         self.root.configure(bg="#18191c")
         self.root.resizable(False, False)
 
@@ -20,7 +23,6 @@ class IntegratedTool:
 
     def setup_style(self):
         self.style.theme_use('clam')
-
         self.style.configure('TButton',
             font=('맑은 고딕', 11, 'bold'),
             padding=6,
@@ -146,14 +148,6 @@ class IntegratedTool:
             .pack(fill='x', padx=10, pady=(15, 5))
         self.auto_resize_window()
 
-    def run_photomap_create(self):
-        try:
-            script_dir = os.path.dirname(os.path.abspath(__file__))
-            script_path = os.path.join(script_dir, "scripts", "photomap", "ET_T_01_photo_map_create.py")
-            subprocess.run(["python", script_path], check=True)
-        except Exception as e:
-            print("포토맵 실행 오류:", e)
-
     def show_misc(self):
         self.clear_frame()
         self.current_frame = tk.Frame(self.root, bg="#18191c")
@@ -163,8 +157,8 @@ class IntegratedTool:
 
         tk.Label(self.current_frame, text="PHOTOMAP", font=("맑은 고딕", 11, "bold"), fg="#9966ff", bg="#18191c").pack(pady=(5, 3))
         ttk.Button(self.current_frame, text="1. 포토맵 작성", command=self.run_photomap_create).pack(fill='x', padx=10, pady=2)
-        ttk.Button(self.current_frame, text="2. CAD 오버레이").pack(fill='x', padx=10, pady=2)
-        ttk.Button(self.current_frame, text="3. 웹 게시").pack(fill='x', padx=10, pady=2)
+        ttk.Button(self.current_frame, text="2. CAD 오버레이", command=self.run_cad_overlay).pack(fill='x', padx=10, pady=2)
+        ttk.Button(self.current_frame, text="3. 웹 게시_미완성").pack(fill='x', padx=10, pady=2)
 
         tk.Label(self.current_frame, text="토지대장 자동정리", font=("맑은 고딕", 11, "bold"), fg="#9966ff", bg="#18191c").pack(pady=(15, 3))
         ttk.Button(self.current_frame, text="1. PROM 활용 토지대장 정리").pack(fill='x', padx=10, pady=2)
@@ -172,6 +166,65 @@ class IntegratedTool:
         ttk.Button(self.current_frame, text="돌아가기", command=self.main_menu, style='Back.TButton')\
             .pack(fill='x', padx=10, pady=(15, 5))
         self.auto_resize_window()
+
+    def run_photomap_create(self):
+        try:
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            script_path = os.path.join(script_dir, "scripts", "photomap", "ET_T_01_photo_map_create.py")
+            subprocess.run(["python", script_path], check=True)
+            self.root.attributes('-topmost', True)
+            self.root.update()
+            messagebox.showinfo("완료", "Photo Map 작성이 완료되었습니다.", parent=self.root)
+            self.root.attributes('-topmost', False)
+        except Exception as e:
+            self.root.attributes('-topmost', True)
+            self.root.update()
+            messagebox.showerror("오류", f"Photo Map 실행 중 오류:\n{e}", parent=self.root)
+            self.root.attributes('-topmost', False)
+
+    def run_cad_overlay(self):
+        try:
+            self.run_lisp_export()
+            self.root.attributes('-topmost', True)
+            self.root.update()
+            messagebox.showinfo("완료", "CAD 좌표 추출 명령이 전송되었습니다.", parent=self.root)
+            self.root.attributes('-topmost', False)
+            self.bring_cad_to_front()
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            overlay_script = os.path.join(script_dir, "scripts", "photomap", "ET_T_02-2_cad_overlay_apply.py")
+            subprocess.run(["python", overlay_script], check=True)
+            self.root.attributes('-topmost', True)
+            self.root.update()
+            messagebox.showinfo("완료", "CAD 오버레이가 완료되었습니다.", parent=self.root)
+            self.root.attributes('-topmost', False)
+        except Exception as e:
+            self.root.attributes('-topmost', True)
+            self.root.update()
+            messagebox.showerror("오류", f"CAD 오버레이 실행 중 오류:\n{e}", parent=self.root)
+            self.root.attributes('-topmost', False)
+
+
+    def run_lisp_export(self):
+        acad = cc.GetActiveObject("AutoCAD.Application")
+        doc = acad.ActiveDocument
+        script_dir = os.path.dirname(os.path.abspath(__file__))
+        lisp_path = os.path.join(script_dir, "scripts", "photomap", "ET_T_02_1_export_coords.lsp")
+        lisp_escaped = lisp_path.replace("\\", "\\\\")
+        cmd = f'(load "{lisp_escaped}")\nEXPCOORD\n'
+        doc.SendCommand(cmd)
+        time.sleep(0.5)
+
+    def bring_cad_to_front(self):
+        user32 = ctypes.WinDLL("user32", use_last_error=True)
+        SW_MAXIMIZE = 3
+        acad = cc.GetActiveObject("AutoCAD.Application")
+        hwnd = acad.HWND
+        user32.ShowWindow(hwnd, SW_MAXIMIZE)
+        user32.SetForegroundWindow(hwnd)
+        root = tk._default_root
+        if root:
+            root.attributes('-topmost', True)
+            root.attributes('-topmost', False)
 
 if __name__ == '__main__':
     main_root = tk.Tk()
