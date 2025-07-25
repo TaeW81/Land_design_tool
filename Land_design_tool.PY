@@ -7,7 +7,7 @@ from PIL import Image, ImageTk
 class IntegratedTool:
     def __init__(self, root):
         self.root = root
-        self.root.title("단지설계 자동화 Tool")
+        self.root.title("단지설계 자동화 Tools")
         self.root.configure(bg="#18191c")
         self.root.resizable(False, False)
 
