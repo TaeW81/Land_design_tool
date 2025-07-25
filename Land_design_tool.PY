@@ -23,47 +23,16 @@ class IntegratedTool:
 
     def setup_style(self):
         self.style.theme_use('clam')
-        self.style.configure('TButton',
-            font=('맑은 고딕', 11, 'bold'),
-            padding=6,
-            background="#23272e",
-            foreground="#00e6d6",
-            borderwidth=0
-        )
-        self.style.map('TButton',
-            background=[('active', '#00e6d6')],
-            foreground=[('active', '#23272e')]
-        )
+        self.style.configure('TButton', font=('맑은 고딕', 11, 'bold'), padding=6, background="#23272e", foreground="#00e6d6", borderwidth=0)
+        self.style.map('TButton', background=[('active', '#00e6d6')], foreground=[('active', '#23272e')])
 
-        self.style.configure('Exit.TButton',
-            font=('맑은 고딕', 11, 'bold'),
-            padding=6,
-            background="#552222",
-            foreground="#ff6666",
-            borderwidth=0
-        )
-        self.style.map('Exit.TButton',
-            background=[('active', '#ff6666')],
-            foreground=[('active', '#18191c')]
-        )
+        self.style.configure('Exit.TButton', font=('맑은 고딕', 11, 'bold'), padding=6, background="#552222", foreground="#ff6666", borderwidth=0)
+        self.style.map('Exit.TButton', background=[('active', '#ff6666')], foreground=[('active', '#18191c')])
 
-        self.style.configure('Back.TButton',
-            font=('맑은 고딕', 11, 'bold'),
-            padding=6,
-            background="#2e2e2e",
-            foreground="#cccccc",
-            borderwidth=0
-        )
-        self.style.map('Back.TButton',
-            background=[('active', '#cccccc')],
-            foreground=[('active', '#18191c')]
-        )
+        self.style.configure('Back.TButton', font=('맑은 고딕', 11, 'bold'), padding=6, background="#2e2e2e", foreground="#cccccc", borderwidth=0)
+        self.style.map('Back.TButton', background=[('active', '#cccccc')], foreground=[('active', '#18191c')])
 
-        self.style.configure('TLabel',
-            font=('맑은 고딕', 14, 'bold'),
-            background="#18191c",
-            foreground="#e6e6e6"
-        )
+        self.style.configure('TLabel', font=('맑은 고딕', 14, 'bold'), background="#18191c", foreground="#e6e6e6")
 
     def clear_frame(self):
         if self.current_frame:
@@ -106,8 +75,19 @@ class IntegratedTool:
     def menu_button(self, text, command):
         ttk.Button(self.current_frame, text=text, command=command).pack(fill='x', padx=10, pady=5)
 
-    def submenu_button(self, label):
-        return ttk.Button(self.current_frame, text=label)
+    def run_lisp(self, lisp_filename, command=None):
+        try:
+            acad = cc.GetActiveObject("AutoCAD.Application")
+            doc = acad.ActiveDocument
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            lisp_path = os.path.join(script_dir, "scripts", "sw", lisp_filename)
+            lisp_escaped = lisp_path.replace("\\", "\\\\")
+            doc.SendCommand(f'(load "{lisp_escaped}")\n')
+            if command:
+                doc.SendCommand(f'{command}\n')
+            self.bring_cad_to_front()
+        except Exception as e:
+            messagebox.showerror("LISP 실행 오류", str(e), parent=self.root)
 
     def show_water_supply(self):
         self.clear_frame()
@@ -130,24 +110,6 @@ class IntegratedTool:
             .pack(fill='x', padx=10, pady=(15, 5))
         self.auto_resize_window()
 
-    def show_drainage(self):
-        self.clear_frame()
-        self.current_frame = tk.Frame(self.root, bg="#18191c")
-        self.current_frame.pack(padx=10, pady=10)
-
-        tk.Label(self.current_frame, text="우수공", font=("맑은 고딕", 15, "bold"), bg="#18191c", fg="white").pack(pady=5)
-
-        tk.Label(self.current_frame, text="계획평면도 작성 자동화", font=("맑은 고딕", 11, "bold"), fg="#9966ff", bg="#18191c").pack(pady=(5, 3))
-        ttk.Button(self.current_frame, text="1. fh에 따른 우수 흐름 방향 표시").pack(fill='x', padx=10, pady=2)
-        ttk.Button(self.current_frame, text="2. 유역 클릭시 관로 번호 및 길이 자동지정").pack(fill='x', padx=10, pady=2)
-        ttk.Button(self.current_frame, text="3. 관로 화살표 표기").pack(fill='x', padx=10, pady=2)
-        ttk.Button(self.current_frame, text="4. 맨홀 자동 기입").pack(fill='x', padx=10, pady=2)
-        ttk.Button(self.current_frame, text="5. 맨홀 명 표기").pack(fill='x', padx=10, pady=2)
-
-        ttk.Button(self.current_frame, text="돌아가기", command=self.main_menu, style='Back.TButton')\
-            .pack(fill='x', padx=10, pady=(15, 5))
-        self.auto_resize_window()
-
     def show_misc(self):
         self.clear_frame()
         self.current_frame = tk.Frame(self.root, bg="#18191c")
@@ -162,6 +124,38 @@ class IntegratedTool:
 
         tk.Label(self.current_frame, text="토지대장 자동정리", font=("맑은 고딕", 11, "bold"), fg="#9966ff", bg="#18191c").pack(pady=(15, 3))
         ttk.Button(self.current_frame, text="1. PROM 활용 토지대장 정리").pack(fill='x', padx=10, pady=2)
+
+        ttk.Button(self.current_frame, text="돌아가기", command=self.main_menu, style='Back.TButton')\
+            .pack(fill='x', padx=10, pady=(15, 5))
+        self.auto_resize_window()
+
+    def show_drainage(self):
+        self.clear_frame()
+        self.current_frame = tk.Frame(self.root, bg="#18191c")
+        self.current_frame.pack(padx=10, pady=10)
+
+        tk.Label(self.current_frame, text="우수공", font=("맑은 고딕", 15, "bold"), bg="#18191c", fg="white").pack(pady=5)
+        tk.Label(self.current_frame, text="계획평면도 작성 자동화", font=("맑은 고딕", 11, "bold"), fg="#9966ff", bg="#18191c").pack(pady=(5, 3))
+
+        button_items = [
+            ("1. 우수흐름 방향 표시",       "01_P_flow_direction_by_fh.lsp"),
+            ("2. 관로 자동입력(by 유역)",  "02_P_pipe_id_length_auto_by_area.lsp"),
+            ("3. 관로 방향 화살표 표기",   "03_P_pipe_arrow_display.lsp"),
+            ("4. 맨홀 아이콘 자동 입력",   "04_P_manhole_auto_insert.lsp"),
+            ("5. 맨홀 명 표기",           "05_P_manhole_labeling.lsp"),
+            ("6. 우수받이 자동작성_미완성", "06_P_streetinlet_auto_create.lsp"),
+            ("7. 종단면도 Slope 내용 편집", "07_J_long_section_edit.lsp"),
+            ("8. 종단 정리(도로별)",       "08_J_long_section_sorting.lsp"),
+            ("9. 도각 자동생성(종,횡갯수)", "09_S_box_auto_create.lsp"),
+            ("10. 키맵 자동생성",         "10_S_keymap_auto_create.lsp"),
+        ]
+
+        for label, filename in button_items:
+            ttk.Button(self.current_frame, text=label, command=lambda f=filename: self.run_lisp(f)).pack(fill='x', padx=10, pady=2)
+
+        tk.Label(self.current_frame, text="수량산출서 자동화", font=("맑은 고딕", 11, "bold"), fg="#9966ff", bg="#18191c").pack(pady=(15, 3))
+        ttk.Button(self.current_frame, text="1. PC맨홀 조합 자동집계").pack(fill='x', padx=10, pady=2)
+        ttk.Button(self.current_frame, text="2. 맨홀 입출입수 자동집계").pack(fill='x', padx=10, pady=2)
 
         ttk.Button(self.current_frame, text="돌아가기", command=self.main_menu, style='Back.TButton')\
             .pack(fill='x', padx=10, pady=(15, 5))
@@ -202,7 +196,6 @@ class IntegratedTool:
             self.root.update()
             messagebox.showerror("오류", f"CAD 오버레이 실행 중 오류:\n{e}", parent=self.root)
             self.root.attributes('-topmost', False)
-
 
     def run_lisp_export(self):
         acad = cc.GetActiveObject("AutoCAD.Application")
