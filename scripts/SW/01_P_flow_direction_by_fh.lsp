@@ -1,4 +1,4 @@
-(defun c:FHFlowArrows ( / getFHValue getFHOnCurve drawArrow doc ms ss txts curve fhData ent obj)
+(defun c:p_flowdir ( / getFHValue getFHOnCurve drawArrow doc ms ss txts curve fhData ent obj)
 
   ;; 텍스트에서 FH 값 추출
   (defun getFHValue (text / pos)

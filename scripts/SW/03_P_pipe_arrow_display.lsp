@@ -1,4 +1,4 @@
-(defun c:SWAR ( / drawArrow doc ms ss i ent ep param dirVec successCount)
+(defun c:p_pipearrow ( / drawArrow doc ms ss i ent ep param dirVec successCount)
 
   ;; 화살표 생성 함수 (종점 기준 방향)
   (defun drawArrow (tipPt dirVec / ang width p1 p2 basePt newTip)

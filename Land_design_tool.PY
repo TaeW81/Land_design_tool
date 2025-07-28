@@ -138,20 +138,25 @@ class IntegratedTool:
         tk.Label(self.current_frame, text="계획평면도 작성 자동화", font=("맑은 고딕", 11, "bold"), fg="#9966ff", bg="#18191c").pack(pady=(5, 3))
 
         button_items = [
-            ("1. 우수흐름 방향 표시",       "01_P_flow_direction_by_fh.lsp"),
-            ("2. 관로 자동입력(by 유역)",  "02_P_pipe_id_length_auto_by_area.lsp"),
-            ("3. 관로 방향 화살표 표기",   "03_P_pipe_arrow_display.lsp"),
-            ("4. 맨홀 아이콘 자동 입력",   "04_P_manhole_auto_insert.lsp"),
-            ("5. 맨홀 명 표기",           "05_P_manhole_labeling.lsp"),
-            ("6. 우수받이 자동작성_미완성", "06_P_streetinlet_auto_create.lsp"),
-            ("7. 종단면도 Slope 내용 편집", "07_J_long_section_edit.lsp"),
-            ("8. 종단 정리(도로별)",       "08_J_long_section_sorting.lsp"),
-            ("9. 도각 자동생성(종,횡갯수)", "09_S_box_auto_create.lsp"),
-            ("10. 키맵 자동생성",         "10_S_keymap_auto_create.lsp"),
+            ("1. 우수흐름 방향 표시",       "01_P_flow_direction_by_fh.lsp",     "p_flowdir"),
+            ("2. 관로 자동입력(by 유역)",  "02_P_pipe_id_length_auto_by_area.lsp", "p_pipeauto"),
+            ("3. 관로 방향 화살표 표기",   "03_P_pipe_arrow_display.lsp",       "p_pipearrow"),
+            ("4. 맨홀 아이콘 자동 입력",   "04_P_manhole_auto_insert.lsp",      "p_mhinsert"),
+            ("5. 맨홀 명 표기",           "05_P_manhole_labeling.lsp",         "p_mhlabel"),
+            ("6. 우수받이 자동작성_미완성", "06_P_streetinlet_auto_create.lsp",  ""),  # 명령어 없음
+            ("7. 종단면도 Slope 내용 편집", "07_J_long_section_edit.lsp",        "p_profedit"),
+            ("8. 종단 정리(도로별)",       "08_J_long_section_sorting.lsp",     "p_profsort"),
+            ("9. 도각 자동생성(종,횡갯수)", "09_S_box_auto_create.lsp",          "p_boxauto"),
+            ("10. 키맵 자동생성",         "10_S_keymap_auto_create.lsp",       "p_keymapauto"),
         ]
 
-        for label, filename in button_items:
-            ttk.Button(self.current_frame, text=label, command=lambda f=filename: self.run_lisp(f)).pack(fill='x', padx=10, pady=2)
+        for label, filename, command in button_items:
+            ttk.Button(
+                self.current_frame, 
+                text=label, 
+                command=lambda f=filename, c=command: self.run_lisp(f, c) if c else self.run_lisp(f)
+            ).pack(fill='x', padx=10, pady=2)
+
 
         tk.Label(self.current_frame, text="수량산출서 자동화", font=("맑은 고딕", 11, "bold"), fg="#9966ff", bg="#18191c").pack(pady=(15, 3))
         ttk.Button(self.current_frame, text="1. PC맨홀 조합 자동집계").pack(fill='x', padx=10, pady=2)

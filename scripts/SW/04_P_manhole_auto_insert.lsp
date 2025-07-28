@@ -1,4 +1,4 @@
-(defun c:MSM ( / *error* getDiameter spacingList getSpacing ss i ent txt val spacing radius len ptList pos existList pt dia divCount stepDist)
+(defun c:p_mhinsert ( / *error* getDiameter spacingList getSpacing ss i ent txt val spacing radius len ptList pos existList pt dia divCount stepDist)
 
   (defun *error* (msg)
     (princ (strcat "\n오류: " msg))

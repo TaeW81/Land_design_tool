@@ -1,5 +1,5 @@
 ;; PLN 명령어 - 방류부 관로를 기준으로 역방향으로 연결된 순서로 번호 부여
-(defun c:PLN (/ get-angle distance pt-close?
+(defun c:p_pipeauto (/ get-angle distance pt-close?
                 selBoundary ss ht i en obj startPt endPt angle midpt totalLength
                 lineCounter lineLabel prefix lenText selOutlet outletPt
                 boundaryPts n boundaryPtList distList boundaryHandle

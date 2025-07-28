@@ -16,7 +16,7 @@
 ;;; - 단위는 도면 단위 기준입니다.
 ;;; - MTEXT는 미지원, TEXT만 회전 처리됩니다.
 
-(defun c:PROFILEEDIT (/ ent data pt1 pt2 info1 info2 val1 val2 ang mid ss idx ed ins rot rotTargets
+(defun c:p_profedit (/ ent data pt1 pt2 info1 info2 val1 val2 ang mid ss idx ed ins rot rotTargets
                         len ptV ptH upTexts downTexts txt txt_y_up_offset txt_y_down_offset)
   (vl-load-com)
   (prompt "\n[PROFILEEDIT 명령 실행됨]")

@@ -1,4 +1,4 @@
-(defun c:MPA (/ ent baseObjs vlaEnt minPt maxPt width height
+(defun c:p_boxauto (/ ent baseObjs vlaEnt minPt maxPt width height
                  addGap dir count dx dy i)
 
   (vl-load-com)

@@ -102,7 +102,7 @@
   p2
 )
 
-(defun c:AFT ( / ss i ent typ circles lines txts circle center pt1 pt2 otherPt line1 line2 closestText minDist txtEnt txtPt dist txtVal entData a1 a2 doc ms parsed txtData txtPos projPt projDist p2 textHeight)
+(defun c:p_mhlabel ( / ss i ent typ circles lines txts circle center pt1 pt2 otherPt line1 line2 closestText minDist txtEnt txtPt dist txtVal entData a1 a2 doc ms parsed txtData txtPos projPt projDist p2 textHeight)
 
   ;; 레이어 생성
   (if (not (tblsearch "LAYER" "맨홀설명선"))

@@ -1,7 +1,7 @@
 ;;; arrprof.lsp
 ;;; — 박스 안 모든 객체를 한 번에 옮기며 “XXX - 우수종단면도” 앞의 XXX 로 그룹핑
 
-(defun c:ARRPROF ( / p1 p2 recs idx cnt rec
+(defun c:p_profsort ( / p1 p2 recs idx cnt rec
                        extents minx miny maxx maxy
                        allTxts j txtEnt pt txtval rname sepPos
                        ssInside entList ent2 data groups grpEntry

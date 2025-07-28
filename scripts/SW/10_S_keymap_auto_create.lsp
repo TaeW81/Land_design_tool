@@ -15,7 +15,7 @@
 ;; 5. 각 도각의 동일한 위치에 키맵 자동 삽입 완료
 ;; ----------------------------------------------------------------------
 
-(defun c:KAB (/ ss_blocks ss_keymap ent keymapObjs basePt
+(defun c:p_keymapauto (/ ss_blocks ss_keymap ent keymapObjs basePt
                            doc entList blkName insertPt minPt maxPt)
 
   (vl-load-com)
