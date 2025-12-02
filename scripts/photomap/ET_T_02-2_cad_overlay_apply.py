@@ -8,6 +8,7 @@ AutoCAD LISP로 생성된 좌표 TXT를 읽어,
 """
 import os
 import json
+import shutil
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from pyproj import Transformer
@@ -33,6 +34,7 @@ class CadOverlayInjector:
     def __init__(self, master):
         self.master = master
         master.title('HTML에 CAD 오버레이 삽입')
+        master.configure(bg="#18191c")
         master.attributes('-topmost', True)
         master.lift()
 
@@ -49,21 +51,43 @@ class CadOverlayInjector:
 
         # 라디오버튼 프레임 배치
         for row, (grp, zones) in enumerate(self.groups.items()):
-            frame = tk.LabelFrame(master, text=grp)
-            frame.grid(row=row, column=0, padx=5, pady=2, sticky='w')
+            frame = tk.LabelFrame(
+                master, 
+                text=grp,
+                bg="#18191c",
+                fg="#9966ff",
+                font=("맑은 고딕", 10, "bold")
+            )
+            frame.grid(row=row, column=0, padx=10, pady=5, sticky='w')
             for col, zone in enumerate(zones):
                 key = f'{grp}_{zone}'
                 tk.Radiobutton(
-                    frame, text=zone,
-                    variable=self.epsg_var, value=key
-                ).grid(row=0, column=col, sticky='w')
+                    frame, 
+                    text=zone,
+                    variable=self.epsg_var, 
+                    value=key,
+                    bg="#18191c",
+                    fg="#e6e6e6",
+                    selectcolor="#23272e",
+                    activebackground="#18191c",
+                    activeforeground="#00e6d6",
+                    font=("맑은 고딕", 9)
+                ).grid(row=0, column=col, padx=5, sticky='w')
 
         # 실행 버튼
         tk.Button(
             master,
             text='HTML 선택 후 오버레이',
-            command=self.inject
-        ).grid(row=len(self.groups), column=0, pady=10)
+            command=self.inject,
+            bg="#23272e",
+            fg="#00e6d6",
+            activebackground="#00e6d6",
+            activeforeground="#23272e",
+            font=("맑은 고딕", 11, "bold"),
+            relief="flat",
+            padx=10,
+            pady=5
+        ).grid(row=len(self.groups), column=0, pady=15)
 
     def inject(self):
         # 1) EPSG 코드 검증
@@ -180,6 +204,16 @@ class CadOverlayInjector:
         with open(save_path, 'w', encoding='utf-8') as f:
             f.write(new_html)
 
+        # 추가 저장 위치: T:\Gits\Photomap_file\
+        try:
+            extra_dir = r'T:\Gits\Photomap_file'
+            os.makedirs(extra_dir, exist_ok=True)
+            extra_path = os.path.join(extra_dir, os.path.basename(save_path))
+            shutil.copy2(save_path, extra_path)
+        except Exception:
+            # 추가 저장 실패는 치명적이지 않으므로 무시
+            pass
+
         # 삭제: 사용한 temp_selected_coords.txt 파일 제거
         try:
             os.remove(txt_path)
@@ -193,6 +227,7 @@ class CadOverlayInjector:
 
 if __name__ == '__main__':
     root = tk.Tk()
+    root.configure(bg="#18191c")
     root.attributes('-topmost', True)
     root.lift()
     CadOverlayInjector(root)

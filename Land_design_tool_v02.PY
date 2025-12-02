@@ -213,7 +213,7 @@ class IntegratedTool:
         tk.Label(self.current_frame, text="PHOTOMAP", font=("맑은 고딕", 11, "bold"), fg="#9966ff", bg="#18191c").pack(pady=(5, 3))
         ttk.Button(self.current_frame, text="1. 포토맵 작성", command=self.run_photomap_create).pack(fill='x', padx=10, pady=2)
         ttk.Button(self.current_frame, text="2. CAD 오버레이", command=self.run_cad_overlay).pack(fill='x', padx=10, pady=2)
-        ttk.Button(self.current_frame, text="3. 웹 게시").pack(fill='x', padx=10, pady=2)
+        ttk.Button(self.current_frame, text="3. 웹 게시", command=self.run_photomap_deploy).pack(fill='x', padx=10, pady=2)
 
         tk.Label(self.current_frame, text="토지대장 자동정리", font=("맑은 고딕", 11, "bold"), fg="#9966ff", bg="#18191c").pack(pady=(15, 3))
         ttk.Button(self.current_frame, text="1. PROM 활용 토지대장 정리").pack(fill='x', padx=10, pady=2)
@@ -330,6 +330,35 @@ class IntegratedTool:
             self.root.attributes('-topmost', True)
             self.root.update()
             messagebox.showerror("오류", f"CAD 오버레이 실행 중 오류:\n{e}", parent=self.root)
+            self.root.attributes('-topmost', False)
+
+    def run_photomap_deploy(self):
+        """Photomap_file 저장소로 포토맵 HTML을 배포하고 브라우저로 열기"""
+        try:
+            bat_path = r"T:\Gits\Land_design_tool\scripts\photomap\커밋deploy_photomap_v2.2.bat"
+            if not os.path.exists(bat_path):
+                messagebox.showerror("파일 오류", f"배치 파일을 찾을 수 없습니다.\n{bat_path}", parent=self.root)
+                return
+
+            self.root.attributes('-topmost', False)
+            subprocess.run([bat_path], check=True)
+
+            self.root.attributes('-topmost', True)
+            self.root.update()
+            messagebox.showinfo("완료", "포토맵 웹 게시가 완료되었습니다.", parent=self.root)
+            self.root.attributes('-topmost', False)
+
+            # 웹 브라우저로 GitHub Pages 사이트 자동 열기
+            try:
+                url = "https://taew81.github.io/Photomap_file/"
+                os.startfile(url)
+            except Exception:
+                # 브라우저 자동 실행 실패는 치명적이지 않으므로 무시
+                pass
+        except Exception as e:
+            self.root.attributes('-topmost', True)
+            self.root.update()
+            messagebox.showerror("오류", f"웹 게시 실행 중 오류:\n{e}", parent=self.root)
             self.root.attributes('-topmost', False)
 
     def run_lisp_export(self):
