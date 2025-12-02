@@ -1,0 +1,75 @@
+[TITLE]
+Drawing2
+
+[JUNCTIONS]
+;ID              Elev            Demand
+j_001               N/A              0
+j_003               N/A              0
+j_004               N/A              0
+j_005               N/A              0
+j_006               N/A              0
+j_007               N/A              0
+
+[RESERVOIRS]
+;ID              Head
+1               N/A
+
+[COORDINATES]
+;Node            X-Coord         Y-Coord
+j_007               2493.670807880424         1784.770214121578
+j_006               2510.266309311914         1754.055349063432
+j_005               2512.416387882308         1818.316215123127
+j_004               2570.972361945666         1818.316215123127
+j_003               2606.057046752392         1818.316215123127
+1               2570.972361945666         1859.641006014388
+j_001               2606.057046752392         1754.055349063432
+
+[PIPES]
+;ID              Node1           Node2           Length          Diameter        Roughness       MinorLoss       Status
+N/A               j_005              j_007              41.58              N/A              110              0              Open
+p_001               j_003              j_001              64.26              200              110              0              Open
+p_002               j_001              j_006              95.79              200              110              0              Open
+p_003               1              j_004              41.32              200              110              0              Open
+p_004               j_005              j_004              58.56              200              110              0              Open
+p_005               j_004              j_003              35.08              200              110              0              Open
+p_006               j_005              j_006              64.3              100              110              0              Open
+p_008               j_007              j_006              41.58              N/A              110              0              Open
+
+[VERTICES]
+;Link            X-Coord         Y-Coord
+N/A               2500.68932841943         1809.198571800839
+N/A               2495.228634624308         1800.999920173159
+N/A               2493.044498356018         1787.898113570473
+p_008               2492.361955288886         1772.066763277335
+p_008               2494.422835676664         1761.932388621072
+p_008               2500.01968470306         1756.473302018038
+
+[TIMES]
+ Duration           	0:00
+ Hydraulic Timestep 	1:00
+ Quality Timestep   	0:05
+ Pattern Timestep   	1:00
+ Pattern Start      	0:00
+ Report Timestep    	1:00
+ Report Start       	0:00
+ Start ClockTime    	12:00 AM
+ Statistic          	NONE
+
+[OPTIONS]
+ Units              	CMD
+ Headloss           	H-W
+ Specific Gravity   	1
+ Viscosity          	1
+ Trials             	500
+ Accuracy           	0.001
+ CHECKFREQ          	2
+ MAXCHECK           	10
+ DAMPLIMIT          	0
+ Unbalanced         	Continue 10
+ Pattern            	1
+ Demand Multiplier  	1.5
+ Emitter Exponent   	0.5
+ Quality            	None mg/L
+ Diffusivity        	1
+ Tolerance          	0.01
+

@@ -1,0 +1,60 @@
+[TITLE]
+상수공 INP파일 생성 캐드 sample1
+
+[JUNCTIONS]
+;ID              Elev            Demand
+J03               65.20              0
+J04               64.55              0
+J05               67.55              0
+J06               64.24              0
+J14               63.50              0
+
+[RESERVOIRS]
+;ID              Head
+Reservoir               69.181
+
+[PIPES]
+;ID              Node1           Node2           Length          Diameter        Roughness       MinorLoss       Status
+P001               Reservoir              J14              41.32              200              110              0               Open
+P002               J14              J06              35.08              150              110              0               Open
+P005               J05              J04              95.79              100              110              0               Open
+P009               J03              J14              58.56              150              110              0               Open
+P012               J06              J05              64.26              100              110              0               Open
+ppp               J03              J04              83.17              150              110              0               Open
+ppp               J03              J04              64.3              150              110              0               Open
+
+[VERTICES]
+ppp 2500.69 1572.65
+ppp 2495.23 1564.45
+ppp 2493.04 1551.35
+ppp 2492.36 1535.51
+ppp 2494.42 1525.38
+ppp 2500.02 1519.92
+
+[OPTIONS]
+ Units              CMD
+ Headloss           H-W
+ Specific Gravity   1
+ Viscosity          1
+ Trials             500
+ Accuracy           0.001
+ CHECKFREQ          2
+ MAXCHECK           10
+ DAMPLIMIT          0
+ Unbalanced         Continue 10
+ Pattern            1
+ Demand Multiplier  1.0
+ Emitter Exponent   0.5
+ Quality            None mg/L
+ Diffusivity        1
+ Tolerance          0.01
+
+[COORDINATES]
+J05 2606.06 1517.5
+Reservoir 2570.97 1623.09
+J06 2606.06 1581.76
+J14 2570.97 1581.76
+J04 2510.27 1517.5
+J03 2512.42 1581.76
+
+[END]

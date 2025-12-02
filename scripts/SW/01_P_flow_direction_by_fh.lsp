@@ -31,11 +31,12 @@
     (vl-sort out '(lambda (a b) (< (nth 2 a) (nth 2 b))))
   )
 
-  ;; 삼각형 화살표 생성
-  (defun drawArrow (curve param1 param2 / midParam midPt tanVec ang side p1 p2 p3 tip)
+  ;; 삼각형 화살표 생성 (reverse: 방향 반전 여부)
+  (defun drawArrow (curve param1 param2 reverse / midParam midPt tanVec ang side p1 p2 p3 tip)
     (setq midParam (/ (+ param1 param2) 2.0))
     (setq midPt (vlax-curve-getPointAtParam curve midParam))
-    (setq tanVec (mapcar '- (vlax-curve-getPointAtParam curve (+ midParam 0.01)) midPt)) ; 접선 벡터
+    (setq tanVec (mapcar '- (vlax-curve-getPointAtParam curve (+ midParam 0.01)) midPt))
+    (if reverse (setq tanVec (mapcar '- '(0 0 0) tanVec))) ; 방향 반전
 
     (if (and midPt tanVec)
       (progn
@@ -44,7 +45,7 @@
         (setq p1 midPt)
         (setq p2 (polar p1 (+ ang (/ pi 2)) side))
         (setq p3 (polar p1 (- ang (/ pi 2)) side))
-        (setq tip (polar p1 ang 20.0)) ; 길이 20으로 증가
+        (setq tip (polar p1 ang 20.0)) ; 길이 20
         (entmakex
           (list
             '(0 . "SOLID")
@@ -96,11 +97,23 @@
           (setq val2 (nth 0 fh2))
           (setq param2 (nth 2 fh2))
 
-          ;; 높은 고도 → 낮은 고도
-          (if (> val1 val2)
-            (drawArrow curve param1 param2)
-            (if (> val2 val1)
-              (drawArrow curve param2 param1)
+          ;; 높은 고도 → 낮은 고도 방향으로 화살표 생성
+          (if (/= val1 val2)
+            (progn
+              (cond
+                ((> val1 val2)
+                 (if (< param1 param2)
+                   (drawArrow curve param1 param2 nil) ; 방향 그대로
+                   (drawArrow curve param2 param1 t)   ; 방향 반전
+                 )
+                )
+                ((> val2 val1)
+                 (if (< param2 param1)
+                   (drawArrow curve param2 param1 nil)
+                   (drawArrow curve param1 param2 t)
+                 )
+                )
+              )
             )
           )
           (setq j (1+ j))
@@ -110,6 +123,6 @@
     (setq i (1+ i))
   )
 
-  (prompt "\nFH 기준 화살표 (중앙 + 길이 2배) 생성 완료.")
+  (prompt "\nFH 기준 화살표 (고도 기준 정확히 반영) 생성 완료.")
   (princ)
 )

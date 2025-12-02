@@ -1,0 +1,20 @@
+(defun c:renametext ( / ss cnt ent ename txt newtxt)
+  (setq ss (ssget '((0 . "TEXT")))) ; TEXT 객체만 선택
+  (if ss
+    (progn
+      (setq cnt 1)
+      (repeat (sslength ss)
+        (setq ename (ssname ss (1- cnt)))
+        (setq ent (entget ename))
+        (setq newtxt (strcat "Nam1_" (substr (strcat "000" (itoa cnt)) (- (strlen (strcat "000" (itoa cnt))) 2))))
+        (setq ent (subst (cons 1 newtxt) (assoc 1 ent) ent))
+        (entmod ent)
+        (entupd ename)
+        (setq cnt (1+ cnt))
+      )
+      (princ (strcat "\n총 " (itoa (sslength ss)) "개의 TEXT가 변경되었습니다."))
+    )
+    (prompt "\nTEXT 객체를 선택해주세요.")
+  )
+  (princ)
+)

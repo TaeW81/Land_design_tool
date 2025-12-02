@@ -1,0 +1,13 @@
+C:\Users\김재구\Downloads\CAD\3D Poly and Offset\3D Poly and Offset\3D Poly and Offset\obj\Debug\3D Poly and Offset.csproj.AssemblyReference.cache
+C:\Users\김재구\Downloads\CAD\3D Poly and Offset\3D Poly and Offset\3D Poly and Offset\obj\Debug\MainWindow.baml
+C:\Users\김재구\Downloads\CAD\3D Poly and Offset\3D Poly and Offset\3D Poly and Offset\obj\Debug\MainWindow.g.cs
+C:\Users\김재구\Downloads\CAD\3D Poly and Offset\3D Poly and Offset\3D Poly and Offset\obj\Debug\3D Poly and Offset_MarkupCompile.cache
+C:\Users\김재구\Downloads\CAD\3D Poly and Offset\3D Poly and Offset\3D Poly and Offset\obj\Debug\3D Poly and Offset.g.resources
+C:\Users\김재구\Downloads\CAD\3D Poly and Offset\3D Poly and Offset\3D Poly and Offset\obj\Debug\_3D_Poly_and_Offset.Properties.Resources.resources
+C:\Users\김재구\Downloads\CAD\3D Poly and Offset\3D Poly and Offset\3D Poly and Offset\obj\Debug\3D Poly and Offset.csproj.GenerateResource.cache
+C:\Users\김재구\Downloads\CAD\3D Poly and Offset\3D Poly and Offset\3D Poly and Offset\obj\Debug\3D Poly and Offset.csproj.CoreCompileInputs.cache
+C:\Users\김재구\Downloads\CAD\3D Poly and Offset\3D Poly and Offset\3D Poly and Offset\bin\Debug\3D Poly and Offset.dll.config
+C:\Users\김재구\Downloads\CAD\3D Poly and Offset\3D Poly and Offset\3D Poly and Offset\bin\Debug\3D Poly and Offset.dll
+C:\Users\김재구\Downloads\CAD\3D Poly and Offset\3D Poly and Offset\3D Poly and Offset\bin\Debug\3D Poly and Offset.pdb
+C:\Users\김재구\Downloads\CAD\3D Poly and Offset\3D Poly and Offset\3D Poly and Offset\obj\Debug\3D Poly and Offset.dll
+C:\Users\김재구\Downloads\CAD\3D Poly and Offset\3D Poly and Offset\3D Poly and Offset\obj\Debug\3D Poly and Offset.pdb

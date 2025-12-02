@@ -131,6 +131,10 @@ class CadOverlayInjector:
 
         # 6) JavaScript 코드 생성
         js_lines = [f"map.setView([{avg_lat}, {avg_lon}], map.getZoom());"]
+        
+        # CAD 오버레이 레이어 그룹 생성
+        js_lines.append("var cadOverlayGroup = L.layerGroup();")
+        
         for grp in groups:
             coords = []
             for x, y, _, _ in grp:
@@ -139,11 +143,24 @@ class CadOverlayInjector:
             color_idx, thickness = grp[0][2], grp[0][3]
             line_color = COLOR_MAP.get(color_idx, '#FF0000')
             line_weight = thickness if thickness > 0 else 2
+            
+            # CAD 선을 포토맵 위에 표시하도록 설정
             js_lines.append(
                 f"L.polyline({json.dumps(coords)},"
-                f"{{color:'{line_color}',weight:{line_weight}}}"  
-                ").addTo(map);"
+                f"{{color:'{line_color}',weight:{line_weight},opacity:0.9,fillOpacity:0.2}})"
+                f".addTo(cadOverlayGroup);"
             )
+        
+        # CAD 오버레이 레이어를 맵에 추가
+        js_lines.append("cadOverlayGroup.addTo(map);")
+        
+        # 기존 레이어 컨트롤에 CAD 오버레이 추가
+        js_lines.append("// 기존 레이어 컨트롤에 CAD 오버레이 추가")
+        js_lines.append("var baseLayers = {'Esri Satellite': L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}', {attribution:'Esri'}),")
+        js_lines.append("                'VWorld Road': L.tileLayer('http://xdworld.vworld.kr:8080/2d/Base/202002/{z}/{x}/{y}.png', {attribution:'VWorld'})};")
+        js_lines.append("var overlays = {'포토맵 마커': markers, 'CAD 오버레이': cadOverlayGroup};")
+        js_lines.append("L.control.layers(baseLayers, overlays, {collapsed:false}).addTo(map);")
+        
         js_code = '<script>' + ''.join(js_lines) + '</script>'
 
         # 7) HTML 삽입 및 저장

@@ -1,0 +1,10 @@
+﻿상수공 INP파일 생성 캐드 sample1,,,,,,,
+Network Table - Nodes,,,,,,,
+                        ,Elevation       ,Base Demand     ,Initial Quality ,Demand          ,Head            ,Pressure        ,Quality         
+ Node ID                ,m               ,CMD             ,                ,CMD             ,m               ,m               ,                
+J03                ,65.2,30,0,30,69.18,3.98,0
+J04                ,64.55,20,0,20,69.18,4.63,0
+J05                ,67.55,0,0,0,69.18,1.63,0
+J06                ,64.24,0,0,0,69.18,4.94,0
+J14                ,63.5,0,0,0,69.18,5.68,0
+Reservoir         ,69.181,#N/A            ,0,-50,69.18,0,0

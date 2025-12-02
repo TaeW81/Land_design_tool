@@ -5,7 +5,7 @@
 ;;  기존 회전값이 90도인 텍스트는 제외하고,
 ;;  회전 대상 TEXT가 3개 이상일 경우 회전을 수행하지 않도록 해줘"
 
-;;; 명령어: PROFILEEDIT
+;;; 명령어: p_profedit
 ;;; 설명:
 ;;; - 종단면도의 선분 하나를 선택하여 양 끝점의 수치(TEXT)를 비교하고,
 ;;;   큰 값 쪽은 위로 4m, 작은 값 쪽은 아래로 4m 이동시킵니다.
@@ -19,7 +19,7 @@
 (defun c:p_profedit (/ ent data pt1 pt2 info1 info2 val1 val2 ang mid ss idx ed ins rot rotTargets
                         len ptV ptH upTexts downTexts txt txt_y_up_offset txt_y_down_offset)
   (vl-load-com)
-  (prompt "\n[PROFILEEDIT 명령 실행됨]")
+  (prompt "\n[p_profedit 명령 실행됨]")
   (prompt "\n종단면도 라인을 선택하세요.")
   (setq ent (car (entsel)))
   (if ent
@@ -174,5 +174,5 @@
 (defun dist2D (p1 p2)
   (distance (list (car p1) (cadr p1)) (list (car p2) (cadr p2))))
 
-(princ "\nPROFILEEDIT 리습이 로드되었습니다. 'PROFILEEDIT' 명령을 실행하세요.")
+(princ "\np_profedit 리습이 로드되었습니다. 'p_profedit' 명령을 실행하세요.")
 (princ)

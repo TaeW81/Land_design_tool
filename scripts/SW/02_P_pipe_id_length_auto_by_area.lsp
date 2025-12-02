@@ -1,4 +1,3 @@
-;; PLN 명령어 - 방류부 관로를 기준으로 역방향으로 연결된 순서로 번호 부여
 (defun c:p_pipeauto (/ get-angle distance pt-close?
                 selBoundary ss ht i en obj startPt endPt angle midpt totalLength
                 lineCounter lineLabel prefix lenText selOutlet outletPt
@@ -141,9 +140,25 @@
                       startPt (nth 3 seg) endPt (nth 4 seg)
                       midpt (nth 5 seg) totalLength (nth 6 seg))
                 (setq angle (get-angle startPt endPt))
+
+                ;; 텍스트 각도 보정 (뒤집힘 방지)
+                (setq rotAngle
+                  (if (or (> angle (/ pi 2)) (< angle (- (/ pi 2))))
+                    (+ angle pi)  ; 뒤집기
+                    angle))
+
+                ;; 관로명 텍스트 (위)
+                (setq lineLabel
+                      (strcat prefix
+                              (substr "00" 1 (- 3 (strlen (itoa lineCounter))))
+                              (itoa lineCounter)
+                              " D000"))
+                (make-text lineLabel midpt "L_Pipes" rotAngle 0 0)
+
+                ;; 길이 텍스트 (아래)
                 (setq lenText (strcat "L=" (rtos totalLength 2 2) "m"))
-                (make-text lenText midpt "L_Diameter" angle 0 3)
-                (setq lineLabel (strcat prefix "-" (if (< lineCounter 10) "0" "") (itoa lineCounter)))
-                (make-text lineLabel midpt "L_Pipes" angle 0 0)
-                (setq lineCounter (1+ lineCounter)))))))))
-  (princ))
+                (make-text lenText midpt "L_Diameter" rotAngle 0 3)
+
+                (setq lineCounter (1+ lineCounter))))))))))
+
+  (princ)

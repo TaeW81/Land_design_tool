@@ -1,0 +1,75 @@
+[TITLE]
+상수공 INP파일 생성 캐드 sample2
+
+[JUNCTIONS]
+;ID              Elev            Demand
+j_001               30              0
+j_003               30              0
+j_004               30              0
+j_005               30              0
+j_006               30              0
+j_007               30              0
+
+[RESERVOIRS]
+;ID              Head
+1               30
+
+[COORDINATES]
+;Node            X-Coord         Y-Coord
+j_007               1981.360426058694         1889.127744012345
+j_006               1997.955927490184         1858.412878954199
+j_005               2000.106006060578         1922.673745013894
+j_004               2058.661980123936         1922.673745013894
+j_003               2093.746664930662         1922.673745013894
+1               2058.661980123936         1963.998535905155
+j_001               2093.746664930662         1858.412878954199
+
+[PIPES]
+;ID              Node1           Node2           Length          Diameter        Roughness       MinorLoss       Status
+p_001               j_003              j_001              64.26              N/A              110              0              Open
+p_002               j_001              j_006              95.79              N/A              110              0              Open
+p_003               1              j_004              41.32              N/A              110              0              Open
+p_004               j_005              j_004              58.56              N/A              110              0              Open
+p_005               j_004              j_003              35.08              N/A              110              0              Open
+p_006               j_005              j_006              64.3              N/A              110              0              Open
+p_007               j_005              j_007              41.58              N/A              110              0              Open
+p_008               j_007              j_006              41.58              N/A              110              0              Open
+
+[VERTICES]
+;Link            X-Coord         Y-Coord
+p_007               1988.378946597701         1913.556101691606
+p_007               1982.918252802578         1905.357450063926
+p_007               1980.734116534288         1892.255643461241
+p_008               1980.051573467157         1876.424293168103
+p_008               1982.112453854935         1866.289918511839
+p_008               1987.709302881331         1860.830831908805
+
+[TIMES]
+ Duration           	0:00
+ Hydraulic Timestep 	1:00
+ Quality Timestep   	0:05
+ Pattern Timestep   	1:00
+ Pattern Start      	0:00
+ Report Timestep    	1:00
+ Report Start       	0:00
+ Start ClockTime    	12:00 AM
+ Statistic          	NONE
+
+[OPTIONS]
+ Units              	CMD
+ Headloss           	H-W
+ Specific Gravity   	1
+ Viscosity          	1
+ Trials             	500
+ Accuracy           	0.001
+ CHECKFREQ          	2
+ MAXCHECK           	10
+ DAMPLIMIT          	0
+ Unbalanced         	Continue 10
+ Pattern            	1
+ Demand Multiplier  	1.5
+ Emitter Exponent   	0.5
+ Quality            	None mg/L
+ Diffusivity        	1
+ Tolerance          	0.01
+

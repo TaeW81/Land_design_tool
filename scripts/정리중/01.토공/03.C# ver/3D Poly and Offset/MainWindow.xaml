@@ -1,0 +1,17 @@
+﻿<Window x:Class="_3D_Poly_and_Offset.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="3D Poly and Offset" Height="240" Width="300" WindowStartupLocation="CenterScreen" ResizeMode="NoResize">
+    <Grid Margin="20">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        
+        <Button x:Name="Btn3DPolyLine" Content="3D PolyLine" Grid.Row="0" 
+                Height="40" Margin="0,0,0,10" Click="Btn3DPolyLine_Click"/>
+        <Button x:Name="Btn3DOffset" Content="3D Offset" Grid.Row="1" 
+                Height="40" Margin="0,0,0,10" Click="Btn3DOffset_Click"/>
+    </Grid>
+</Window>

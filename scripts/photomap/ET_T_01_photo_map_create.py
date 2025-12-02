@@ -116,24 +116,56 @@ def main():
     if not folder:
         return  # 폴더 선택 안 했을 경우 아무 메시지도 출력하지 않고 종료
 
+    print(f"선택된 폴더: {folder}")
+    
+    # 폴더 내 이미지 파일 수 확인
+    image_files = collect_image_files(folder)
+    print(f"발견된 이미지 파일 수: {len(image_files)}")
+    
     pts = []
-    for p in collect_image_files(folder):
+    processed_count = 0
+    gps_found_count = 0
+    
+    for p in image_files:
+        print(f"처리 중: {os.path.basename(p)}")
         gps = get_exif_gps(p)
-        if gps and 'GPSLatitude' in gps and 'GPSLongitude' in gps:
-            try:
-                lat = dms_to_dd(gps['GPSLatitude'], gps['GPSLatitudeRef'])
-                lon = dms_to_dd(gps['GPSLongitude'], gps['GPSLongitudeRef'])
-                thumb, _, _ = get_thumbnail_base64_and_size(p)
-                taken = get_photo_datetime(p)
-                pts.append({'path': os.path.relpath(p, folder), 'lat': lat, 'lon': lon, 'thumb_b64': thumb, 'taken_time': taken})
-            except Exception as e:
-                print(f"{p} 오류: {e}")
+        
+        if gps:
+            print(f"  GPS 데이터 발견: {gps.keys()}")
+            gps_found_count += 1
+            
+            if 'GPSLatitude' in gps and 'GPSLongitude' in gps:
+                try:
+                    lat = dms_to_dd(gps['GPSLatitude'], gps['GPSLatitudeRef'])
+                    lon = dms_to_dd(gps['GPSLongitude'], gps['GPSLongitudeRef'])
+                    print(f"  좌표: {lat}, {lon}")
+                    
+                    thumb, _, _ = get_thumbnail_base64_and_size(p)
+                    if thumb:
+                        print(f"  썸네일 생성 성공")
+                    else:
+                        print(f"  썸네일 생성 실패")
+                        
+                    taken = get_photo_datetime(p)
+                    pts.append({'path': os.path.relpath(p, folder), 'lat': lat, 'lon': lon, 'thumb_b64': thumb, 'taken_time': taken})
+                    processed_count += 1
+                    print(f"  처리 완료")
+                except Exception as e:
+                    print(f"  처리 오류: {e}")
+            else:
+                print(f"  GPS 위도/경도 정보 없음")
+        else:
+            print(f"  GPS 정보 없음")
+        
+        print()
 
+    print(f"총 처리된 사진: {processed_count}개")
+    print(f"GPS 정보가 있는 사진: {gps_found_count}개")
 
     if not pts:
         root = tk.Tk()
         root.withdraw()
-        messagebox.showinfo("GPS 정보 없음", "폴더 내 GPS 좌표가 포함된 사진이 없습니다.")
+        messagebox.showinfo("GPS 정보 없음", f"폴더 내 GPS 좌표가 포함된 사진이 없습니다.\n총 이미지: {len(image_files)}개\nGPS 정보 있음: {gps_found_count}개")
         root.destroy()
         sys.exit()
 
