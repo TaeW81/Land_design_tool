@@ -7,7 +7,7 @@ echo ===============================
 echo Building index.html with Python...
 echo ===============================
 
-python build_index.py
+python T:\Gits\Land_design_tool\scripts\photomap\build_index.py
 
 echo ===============================
 echo Syncing with GitHub...
