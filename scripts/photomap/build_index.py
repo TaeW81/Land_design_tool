@@ -2,8 +2,8 @@ import os
 
 
 def main():
-    # T:\Gits\Photomap_file\ 경로로 명시적으로 설정
-    target_dir = r"T:\Gits\Photomap_file"
+    # T:\Gits\Land_design_tool\Photomap_file\ 경로로 명시적으로 설정
+    target_dir = r"T:\Gits\Land_design_tool\Photomap_file"
     
     if not os.path.exists(target_dir):
         print(f"오류: 디렉토리를 찾을 수 없습니다: {target_dir}")
@@ -71,12 +71,22 @@ def main():
     lines.append("</html>")
 
     out_path = os.path.join(base_dir, "index.html")
+    
+    # 기존 index.html이 있으면 백업 (선택사항)
+    if os.path.exists(out_path):
+        print(f"기존 index.html 발견, 새로 생성합니다...")
+    
+    # UTF-8 인코딩으로 새로 작성 (항상 최신 파일 목록 반영)
     with open(out_path, "w", encoding="utf-8") as f:
         f.write("\n".join(lines))
     
-    print(f"index.html 생성 완료: {len(sorted_files)}개의 HTML 파일 링크 포함")
-    for name in sorted_files:
-        print(f"  - {name}")
+    print(f"\n{'='*50}")
+    print(f"index.html 생성 완료!")
+    print(f"총 {len(sorted_files)}개의 HTML 파일 링크 포함")
+    print(f"{'='*50}")
+    for i, name in enumerate(sorted_files, 1):
+        print(f"  {i}. {name}")
+    print(f"{'='*50}\n")
 
 
 if __name__ == "__main__":

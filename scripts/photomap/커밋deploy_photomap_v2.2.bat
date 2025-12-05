@@ -1,7 +1,7 @@
 @echo off
 
 REM ===== working directory =====
-cd /d T:\Gits\Photomap_file\
+cd /d T:\Gits\Land_design_tool\Photomap_file\
 
 echo ===============================
 echo Building index.html with Python...

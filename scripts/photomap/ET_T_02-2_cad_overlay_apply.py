@@ -204,9 +204,9 @@ class CadOverlayInjector:
         with open(save_path, 'w', encoding='utf-8') as f:
             f.write(new_html)
 
-        # 추가 저장 위치: T:\Gits\Photomap_file\
+        # 추가 저장 위치: T:\Gits\Land_design_tool\Photomap_file\
         try:
-            extra_dir = r'T:\Gits\Photomap_file'
+            extra_dir = r'T:\Gits\Land_design_tool\Photomap_file'
             os.makedirs(extra_dir, exist_ok=True)
             extra_path = os.path.join(extra_dir, os.path.basename(save_path))
             shutil.copy2(save_path, extra_path)

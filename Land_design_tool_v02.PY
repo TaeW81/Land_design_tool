@@ -333,7 +333,7 @@ class IntegratedTool:
             self.root.attributes('-topmost', False)
 
     def run_photomap_deploy(self):
-        """Photomap_file 저장소로 포토맵 HTML을 배포하고 브라우저로 열기"""
+        """Land_design_tool\Photomap_file 저장소로 포토맵 HTML을 배포하고 브라우저로 열기"""
         try:
             bat_path = r"T:\Gits\Land_design_tool\scripts\photomap\커밋deploy_photomap_v2.2.bat"
             if not os.path.exists(bat_path):
@@ -350,7 +350,7 @@ class IntegratedTool:
 
             # 웹 브라우저로 GitHub Pages 사이트 자동 열기
             try:
-                url = "https://taew81.github.io/Photomap_file/"
+                url = "https://taew81.github.io/Photomap_file/index.html"
                 os.startfile(url)
             except Exception:
                 # 브라우저 자동 실행 실패는 치명적이지 않으므로 무시
