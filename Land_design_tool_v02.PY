@@ -161,6 +161,19 @@ class IntegratedTool:
         except Exception as e:
             messagebox.showerror("LISP 실행 오류", str(e), parent=self.root)
 
+    def run_water_supply_lisp(self, subfolder, lisp_filename, command):
+        try:
+            acad = cc.GetActiveObject("AutoCAD.Application")
+            doc = acad.ActiveDocument
+            script_dir = os.path.dirname(os.path.abspath(__file__))
+            lisp_path = os.path.join(script_dir, "scripts", "PW", subfolder, lisp_filename)
+            lisp_escaped = lisp_path.replace("\\", "\\\\")
+            doc.SendCommand(f'(load "{lisp_escaped}")\n')
+            doc.SendCommand(f'{command}\n')
+            self.bring_cad_to_front()
+        except Exception as e:
+            messagebox.showerror("LISP 실행 오류", str(e), parent=self.root)
+
     def run_pc_manhole_excel(self):
         try:
             script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -186,9 +199,11 @@ class IntegratedTool:
         tk.Label(self.current_frame, text="상수공", font=("맑은 고딕", 15, "bold"), bg="#18191c", fg="white").pack(pady=5)
 
         tk.Label(self.current_frame, text="EPANET 수리계산 자동화", font=("맑은 고딕", 11, "bold"), fg="#9966ff", bg="#18191c").pack(pady=(10, 4))
-        ttk.Button(self.current_frame, text="1. 수리계산용 CAD template 자동작성").pack(fill='x', padx=10, pady=3)
-        ttk.Button(self.current_frame, text="2. 계획고 적용 from CDS data").pack(fill='x', padx=10, pady=3)
-        ttk.Button(self.current_frame, text="3. Cad to INP").pack(fill='x', padx=10, pady=3)
+        ttk.Button(self.current_frame, text="1. 관로 기본정보 점검", command=lambda: self.run_water_supply_lisp("1_관로 기본정보 점검", "pipe_check_v0.3.lsp", "pipe_check")).pack(fill='x', padx=10, pady=3)
+        ttk.Button(self.current_frame, text="2. 수리계산용 CAD 템플릿 생성", command=lambda: self.run_water_supply_lisp("2_수리계산용 CAD 템플릿 생성", "plab_v2.4.lsp", "PLAB")).pack(fill='x', padx=10, pady=3)
+        ttk.Button(self.current_frame, text="3. 연변부여(정선,파이프)", command=lambda: self.run_water_supply_lisp("3_연변부여(정선,파이프)", "renameText연번_v01_2.lsp", "renametext")).pack(fill='x', padx=10, pady=3)
+        ttk.Button(self.current_frame, text="4. 계획고(CDS) 정보 자동 적용", command=lambda: self.run_water_supply_lisp("4_계획고(CDS) 정보 자동 적용", "FHEDIT_01.lsp", "FHEDIT")).pack(fill='x', padx=10, pady=3)
+        ttk.Button(self.current_frame, text="5. CAD → INP 변환", command=lambda: self.run_water_supply_lisp("5_CAD → INP 변환", "MakeEPANET_v1.5.lsp", "MakeEPANET")).pack(fill='x', padx=10, pady=3)
 
         tk.Label(self.current_frame, text="계획평면도 작성 자동화", font=("맑은 고딕", 11, "bold"), fg="#9966ff", bg="#18191c").pack(pady=(15, 4))
         ttk.Button(self.current_frame, text="1. 계획평면도 작성 from inp").pack(fill='x', padx=10, pady=3)
